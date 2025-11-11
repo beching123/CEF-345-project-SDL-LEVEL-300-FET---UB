@@ -49,6 +49,6 @@ Communities discover nearby areas with better connectivity.
   Before starting any new work, ensure you local `main` branch is up-to-date with the latest changes from GitHub.
 
 
-  ## Note if you do not know how to do any of the above, "please do a detailed research before doing any action" as it is of great importance to you and great issue to the group work if you cause any accident.
+  ## Note: if you do not know how to do any of the above, "please do a detailed research before doing any action" as it is of great importance to you and great issue to the group work if you cause any accident.
 
   more info will be added later. Stunned  
