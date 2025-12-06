@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NETLINK REPORT PAGE</title>
+    <link rel="stylesheet" href="stylereport.css">
+    <link rel="stylesheet" href="stylenet.css">
+</head>
+<body onload="changeColor()">
+    <header>
+        <div class="logo">NETLINK</div>
+        <nav>
+            <ul>
+                <li><a href="home.html"> Home</a></li>
+                <li><a href="REPORT.html">Report Issues</a></li>
+                <li><a href="Map.html">Network Map</a></li>
+                <li><a href="contact.html"> Contact</a></li>
+                <li><a href="FAQs.html">FAQs </a></li>
+                 
+            </ul>
+        </nav>
+    </header>
+       
+    <div class="report-box">
+        <h2>Report Network Issue</h2>
+        <p>Please fill out the form below to report a network issue</p>
+
+        <!--Network Type-->
+        <label>Network type:</label>
+        <select id="networkType" onchange="changeColor()">
+            <option value="MTN">MTN</option>
+            <option value="Orange">Orange</option>
+            <option value="Camtel">Camtel</option>
+       </select>
+
+        <!--Issue-->
+       <label>Main Issue:</label>
+       <select>
+        <option>Slow Internet Speed</option>
+        <option>No Network</option>
+        <option>Bundle Not Received </option>
+        <option>Messages Not Delivering</option> 
+     </select>
+     
+     <!--Description-->
+     <label>Problem Description:</label>
+     <textarea placeholder="Describe your issue.."></textarea> 
+
+     <!--Checkbox-->
+     <div class="checkbox">
+        <input type="checkbox">Allow NETLINK to collect my location to report network issues.
+     </div>
+
+     <!--Submit-->
+     <button class="submit-btn">Submit</button>
+   </div>
+    
+</body>
+</html>
