@@ -37,15 +37,15 @@ networkType.addEventListener("input", function (){
   };
 
   if (NetType === "CAMTEL"){
-    networkType.style.color = "blue";
+    networkType.style.color = "rgba(9, 138, 218, 1)";
     networkType.style.backgroundColor = "rgba(255, 255, 255, 1)";
-    form.style.backgroundColor = "blue";
-    submitBtn.style.backgroundColor = "blue";
+    form.style.backgroundColor = "rgba(9, 138, 218, 1)";
+    submitBtn.style.backgroundColor = "rgba(9, 138, 218, 1)";
     MainIssue.style.backgroundColor = "rgba(255, 255, 255, 1)";
-    MainIssue.style.color = "blue";
+    MainIssue.style.color = "rgba(9, 138, 218, 1)";
     description.style.backgroundColor = "rgba(255, 255, 255, 1)";
-    description.style.color = "blue";
-    submitBtn.style.outline = "3px solid blue" ;
+    description.style.color = "rgba(9, 138, 218, 1)";
+    submitBtn.style.outline = "3px solid rgba(9, 138, 218, 1)" ;
   };
 
    if (NetType !== "CAMTEL" && NetType !== "ORANGE" && NetType !== "MTN") {
