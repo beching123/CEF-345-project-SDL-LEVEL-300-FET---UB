@@ -133,6 +133,7 @@ nav ul li a:hover{
 }
 button:hover {box-shadow: 0 8px 16px 0 rgba(0,0,0,0.6);}
 button {
+    
   color: #fff;
   padding: 15px 25px;
   background-color: #38D2D2;
