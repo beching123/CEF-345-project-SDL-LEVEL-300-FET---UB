@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="NETLINK CO LIMITED">
+  <meta name="description" content="Report page for NETLINK, network issue in your area">
+  <meta name="keywords" content="MTN,ORANGE,CAMTEL Report network failures, networks">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="stylereport.css"></link>
+   <link rel="stylesheet" href="stylenet.css">
+  <title>Report Page</title>
+</head>
+<body>
+    <header>
+        <div class="logo">NETLINK</div>
+        <nav>
+            <ul>
+                <li><a href="home.html"> Home</a></li>
+                <li><a href="REPORT.html">Report Issues</a></li>
+                <li><a href="Map.html">Network Map</a></li>
+                <li><a href="contact.html"> Contact</a></li>
+                <li><a href="FAQs.html">FAQs </a></li>
+                 
+            </ul>
+        </nav>
+    </header>
+       
+
+  <div class="container" id="MainDiv">
+    
+    <div class="Welcome-message">
+      <h2>Report Network issue</h2>
+      <p class="p-WM">Please fill out the form below to report a network issue</p>
+    </div>
+    <form class="report-form" id="form">
+      <label for="network-type"> Network Type: </label>
+      <select id="network-type" name="network-type" class="dropdowns">
+        <option>select your preferred network</option>
+        <option value="MTN">MTN</option>
+        <option value="ORANGE">ORANGE</option>
+        <option value="CAMTEL">CAMTEL</option>
+      </select>
+      <label for="Network-issue">Main issue:</label>
+      <select id="Network-issue" name="Network-issue" class="dropdowns">
+        <option value="Slow-Internet-Speed">Slow Internet Speed</option>
+        <option value="No-Internet-Connection">No Internet Connection</option>
+        <option value="Call-Drops">Call Drops</option>
+        <option value="Data-Bundle-Issues">Data Bundle Issues</option>
+        <option value="Poor-Network-Coverage">Poor Network Coverage</option>
+      </select>
+      <label for="Problem-description">Problem Description:</label>
+      <textarea id="Problem-description" type="text" name="Problem-description" class="P-description" maxlength="300"></textarea>
+      <label for="location" id="locationLabel">
+        <input name="location-consent" id="location" type="checkbox" checked>
+         I allow NETLINK collect my location to report network issues.
+      </label>
+      <button type="submit" id="Btn">Submit</button>
+    </form>
+    <div id="notification"></div>
+  </div>
+  <script src="ReportPageIndex.js"></script>
+</body>
+</html>
