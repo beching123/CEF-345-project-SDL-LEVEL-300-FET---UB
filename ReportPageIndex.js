@@ -7,6 +7,8 @@ const bodyDiv = document.getElementById("MainDiv");
 const form = document.getElementById("form");
 const description = document.getElementById("Problem-description");
 const notification = document.getElementById("notification");
+const Ntnpar = document.getElementById("NtnPar");
+const OkBtn = document.getElementById("OkBtn");
 
 networkType.addEventListener("input", function (){
 
@@ -59,15 +61,63 @@ networkType.addEventListener("input", function (){
   };
 });
 
-UserLocation.addEventListener("click", function(){
-  if (!UserLocation.checked){
 
-    alert("Alert! Please we need your location to pinpoint network issues in your area and provide  faster resolution. Please enable location.");
+//event to handle users device location
+UserLocation.addEventListener("click", function(){
+  if (!UserLocation.checked){//If they refuse to give us permission to their location
+    notification.style.display = "block";
+    notification.style.zIndex = 1;
+    Ntnpar.textContent = "Alert! Please we need your location to pinpoint network issues in your area and provide  faster resolution. Please enable location."
 };
 
+//when the user accept to give their location
 if (UserLocation.checked){
-
+  getLocation();
 }});
+
 submitBtn.addEventListener("click",function (){
-  notification.style.zIndex = 1000;
-})
+  notification.style.zIndex = 1;
+});
+OkBtn.addEventListener("click",function (){
+  notification.style.display = "none";
+});
+
+//function to get user location
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+  } else { 
+      notification.style.display = "block";
+      notification.style.zIndex = 1;
+      Ntnpar = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+   
+   notification.style.display = "block";
+   notification.style.zIndex = 1;
+   Ntnpar.textContent = "Latitude: " + position.coords.latitude + 
+  "Longitude: " + position.coords.longitude;
+}
+
+function showError(error) {
+
+  notification.style.display = "block";
+  notification.style.zIndex = 1;
+
+  switch(error.code) {
+    case error.PERMISSION_DENIED:
+        Ntnpar.textContent =  "User denied the request for Geolocation.";
+      break;
+    case error.POSITION_UNAVAILABLE:
+         Ntnpar.textContent =  "Location information is unavailable.";
+      break;
+    case error.TIMEOUT:
+       Ntnpar.textContent =  "The request to get user location timed out.";
+      break;
+    case error.UNKNOWN_ERROR:
+        Ntnpar.textContent = "An unknown error occurred.";
+      break;
+  }
+}
