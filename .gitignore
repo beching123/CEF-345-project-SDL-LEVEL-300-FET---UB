@@ -1,0 +1,73 @@
+# Build directories
+build/
+Debug/
+Release/
+bin/
+obj/
+.vs/
+.vscode/
+node_modules/
+dist/
+out/
+
+# Compiled objects and libraries
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.exe
+*.so
+*.dylib
+*.pdb
+
+# IDE files
+*.sln
+*.vcxproj
+*.vcxproj.filters
+.idea/
+*.swp
+*.swo
+*.iml
+.DS_Store
+Thumbs.db
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Dependencies
+SDL2/
+lib/
+include/
+vendor/
+.env
+
+# Temp and log files
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+.cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+.directory
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+
+# Package managers
+package-lock.json
+yarn.lock
+
+# Include app.js
+!app.js
