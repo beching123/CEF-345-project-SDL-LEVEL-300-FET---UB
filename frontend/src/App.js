@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import ReportPage from "./pages/ReportPage";
 
 /*
   App.js - Professional Network Issue Portal Shell
@@ -173,7 +174,7 @@ body{
 `;
 
 /* Placeholder pages - Teams should replace contents with their components */
-export function HomePage() {
+function HomePage() {
   return (
     <section className="card" aria-label="Home">
       <h1 style={{marginTop:0}}>Network Overview</h1>
@@ -185,19 +186,7 @@ export function HomePage() {
   );
 }
 
-export function ReportPage() {
-  return (
-    <section className="card" aria-label="Report an Issue">
-      <h1 style={{marginTop:0}}>Report a Network Issue</h1>
-      <p style={{color:"#1f2d3a", marginBottom:12}}>Form or guided workflow component should replace this area.</p>
-      <div style={{padding:12, borderRadius:8, background:"#f7fbff", border:"1px solid rgba(0,123,255,0.06)"}}>
-        Report form placeholder — replace with secure reporting form component.
-      </div>
-    </section>
-  );
-}
-
-export function MapPage() {
+function MapPage() {
   return (
     <section className="card" aria-label="Network Map">
       <h1 style={{marginTop:0}}>Network Map</h1>
@@ -209,7 +198,7 @@ export function MapPage() {
   );
 }
 
-export function FAQPage() {
+function FAQPage() {
   return (
     <section className="card" aria-label="FAQ">
       <h1 style={{marginTop:0}}>FAQ & Help</h1>
@@ -233,7 +222,7 @@ export default function App() {
       <style>{styles}</style>
       <Router>
         <header className="navbar" role="banner">
-          <NavLink to="/" className="brand" aria-label="Network Pulse Home" style={{textDecoration:"none"}}>
+          <Link to="/" className="brand" aria-label="Network Pulse Home" style={{textDecoration:"none"}}>
             <div className="logo" aria-hidden="true">
               <span className="pulse-ring" />
               <span className="pulse-core" />
@@ -242,13 +231,13 @@ export default function App() {
               <span className="title">Network Pulse</span>
               <span className="subtitle">incident & reporting portal</span>
             </div>
-          </NavLink>
+          </Link>
 
           <nav className="navlinks" role="navigation" aria-label="Main navigation">
-            <NavLink to="/" end className={({isActive}) => isActive ? "active" : ""}>Home</NavLink>
-            <NavLink to="/report" className={({isActive}) => isActive ? "active" : ""}>Report</NavLink>
-            <NavLink to="/map" className={({isActive}) => isActive ? "active" : ""}>Map</NavLink>
-            <NavLink to="/faq" className={({isActive}) => isActive ? "active" : ""}>FAQ</NavLink>
+            <Link to="/" className={({isActive}) => isActive ? "active" : ""}>Home</Link>
+            <Link to="/report" className={({isActive}) => isActive ? "active" : ""}>Report</Link>
+            <Link to="/map" className={({isActive}) => isActive ? "active" : ""}>Map</Link>
+            <Link to="/faq" className={({isActive}) => isActive ? "active" : ""}>FAQ</Link>
           </nav>
         </header>
 
@@ -258,7 +247,6 @@ export default function App() {
             <Route path="/report" element={<ReportPage />} />
             <Route path="/map" element={<MapPage />} />
             <Route path="/faq" element={<FAQPage />} />
-            {/* Team can add nested routes or replace placeholders with imported components */}
           </Routes>
         </main>
 
