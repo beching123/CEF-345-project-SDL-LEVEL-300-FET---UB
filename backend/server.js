@@ -3,6 +3,13 @@ const path = require("path");
 const mysql = require("mysql2/promise");
 const app = express();
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin-", "http://localhost:3001");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With Content-Type, Accept");
+  next();
+})
+
+const cors = require('cors');
 const PORT = 3000;
 
 // 1. Connection Pool to MySQL with promise support for transactions
@@ -29,7 +36,7 @@ app.use((req, res, next) => {
   }
   next();
 });
-
+app.use(cors());
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 app.use(express.json());
 

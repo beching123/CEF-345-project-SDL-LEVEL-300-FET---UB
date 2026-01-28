@@ -8,8 +8,12 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.1",
     "@testing-library/user-event": "^13.5.0",
+<<<<<<< HEAD
     "axios": "^1.6.0",
     "leaflet": "^1.9.4",
+=======
+    "axios": "^1.13.2",
+>>>>>>> b6845d04487e18850dc753ebe89579106f841b22
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-leaflet": "^5.0.0",

@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { useState, useEffect } from 'react';
 import apiClient from '../api/axios';
+=======
+import { useState } from 'react';
+import axios from 'axios';
+>>>>>>> b6845d04487e18850dc753ebe89579106f841b22
 
 export default function ReportPage() {
     const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -27,6 +32,7 @@ export default function ReportPage() {
         latencyMs: 0,
     });
 
+<<<<<<< HEAD
     const [notification, setNotification] = useState({ show: false, message: '', type: 'success' });
     const [loading, setLoading] = useState(false);
     const [connectionError, setConnectionError] = useState(null);
@@ -89,6 +95,10 @@ export default function ReportPage() {
             window.removeEventListener('connectionError', handleConnectionError);
         };
     }, []);
+=======
+    const [notification, setNotification] = useState({ show: false, message: '' });
+    const [loading, setLoading] = useState(false);
+>>>>>>> b6845d04487e18850dc753ebe89579106f841b22
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -98,6 +108,7 @@ export default function ReportPage() {
         }));
     };
 
+<<<<<<< HEAD
     const handleManualLocationFetch = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -248,6 +259,42 @@ export default function ReportPage() {
         } finally {
             setLoading(false);
             setTimeout(() => setNotification({ show: false, message: '', type: 'success' }), 5000);
+=======
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Validation
+        if (!formData.networkType || !formData.phoneNumber || !formData.issue || !formData.description) {
+            setNotification({ show: true, message: 'Please fill in all required fields.' });
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const response = await axios.post('http://localhost:3000/api/reports', {
+                networkType: formData.networkType,
+                phoneNumber: formData.phoneNumber,
+                issue: formData.issue,
+                description: formData.description,
+                locationConsent: formData.locationConsent,
+            });
+
+            setNotification({ show: true, message: 'Report submitted successfully!' });
+            setFormData({
+                networkType: '',
+                phoneNumber: '',
+                issue: '',
+                description: '',
+                locationConsent: false,
+            });
+        } catch (error) {
+            setNotification({ 
+                show: true, 
+                message: error.response?.data?.message || 'Error submitting report. Please try again.' 
+            });
+        } finally {
+            setLoading(false);
+>>>>>>> b6845d04487e18850dc753ebe89579106f841b22
         }
     };
 
@@ -450,6 +497,7 @@ export default function ReportPage() {
                     </div>
                 )}
 
+<<<<<<< HEAD
                 <form onSubmit={handleSubmit}>
                     {/* Basic Info Section */}
                     <div style={styles.sectionLabel}>📋 Basic Information</div>
@@ -656,6 +704,18 @@ export default function ReportPage() {
                             </div>
                         </div>
                     )}
+=======
+                <button 
+                    type="submit" 
+                    style={styles.button}
+                    disabled={loading}
+                    onMouseEnter={(e) => Object.assign(e.target.style, styles.buttonHover)}
+                    onMouseLeave={(e) => Object.assign(e.target.style, { backgroundColor: styles.button.backgroundColor, boxShadow: styles.button.boxShadow, transform: 'none' })}
+                >
+                    {loading ? 'Submitting...' : 'Submit Report'}
+                </button>
+            </form>
+>>>>>>> b6845d04487e18850dc753ebe89579106f841b22
 
                     <button 
                         type="submit" 
