@@ -16,8 +16,14 @@
 >>>>>>> b6845d04487e18850dc753ebe89579106f841b22
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
+<<<<<<< HEAD
     "react-leaflet": "^5.0.0",
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 332df103079b5c4f8da0812851d5dc13e074abb7
     "react-router-dom": "^7.12.0",
+>>>>>>> 431e6ded82caa2b36dc4a70d50bf092d8737d164
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
