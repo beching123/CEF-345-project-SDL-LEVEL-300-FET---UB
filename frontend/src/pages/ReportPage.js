@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 export default function ReportPage() {
     const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ export default function ReportPage() {
     });
 
     const [notification, setNotification] = useState({ show: false, message: '' });
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -19,9 +21,41 @@ export default function ReportPage() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setNotification({ show: true, message: 'Report submitted successfully!' });
+
+        // Validation
+        if (!formData.networkType || !formData.phoneNumber || !formData.issue || !formData.description) {
+            setNotification({ show: true, message: 'Please fill in all required fields.' });
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const response = await axios.post('http://localhost:3000/api/reports', {
+                networkType: formData.networkType,
+                phoneNumber: formData.phoneNumber,
+                issue: formData.issue,
+                description: formData.description,
+                locationConsent: formData.locationConsent,
+            });
+
+            setNotification({ show: true, message: 'Report submitted successfully!' });
+            setFormData({
+                networkType: '',
+                phoneNumber: '',
+                issue: '',
+                description: '',
+                locationConsent: false,
+            });
+        } catch (error) {
+            setNotification({ 
+                show: true, 
+                message: error.response?.data?.message || 'Error submitting report. Please try again.' 
+            });
+        } finally {
+            setLoading(false);
+        }
     };
 
     const styles = {
@@ -225,10 +259,11 @@ export default function ReportPage() {
                 <button 
                     type="submit" 
                     style={styles.button}
+                    disabled={loading}
                     onMouseEnter={(e) => Object.assign(e.target.style, styles.buttonHover)}
                     onMouseLeave={(e) => Object.assign(e.target.style, { backgroundColor: styles.button.backgroundColor, boxShadow: styles.button.boxShadow, transform: 'none' })}
                 >
-                    Submit Report
+                    {loading ? 'Submitting...' : 'Submit Report'}
                 </button>
             </form>
 
