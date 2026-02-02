@@ -1,25 +1,23 @@
 {
-  "name": "netlink-backend",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "Backend server for Netlink network reporting system",
+  "description": "",
   "main": "server.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "keywords": [
-    "netlink",
-    "network",
-    "reporting",
-    "nodejs"
-  ],
-  "author": "Netlink Group",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
+  "type": "commonjs",
   "dependencies": {
-    "express": "^4.22.1",
-    "cors": "^2.8.5",
-  "devDependencies": {}
+    "cor": "^0.0.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mysql2": "^3.16.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
 }
-}
-
-
-
