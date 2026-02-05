@@ -184,10 +184,9 @@ app.post("/report", (req, res) => {
 });
 
 // 8. Serve React app
-app.get('/*', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
 });
-
 
 app.listen(PORT, () => {
   console.log(`✅ Netlink Server running at http://localhost:${PORT}`);
