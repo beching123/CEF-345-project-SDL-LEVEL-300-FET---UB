@@ -71,3 +71,19 @@ yarn.lock
 
 # Include app.js
 !app.js
+
+# Project-specific exclusions
+frontend_old/
+frontend/build/
+Page report form/
+premium/
+uploads/
+coverage/
+.env.local
+.env.*.local
+
+# Docker build cache
+.docker/
+
+# Testing
+*.test.snap

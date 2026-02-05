@@ -1,0 +1,51 @@
+name: Frontend Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend-tests.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend-tests.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: 'frontend/package-lock.json'
+
+    - name: Install dependencies
+      working-directory: ./frontend
+      run: npm install
+
+    - name: Run tests
+      working-directory: ./frontend
+      run: npm test -- --coverage --watchAll=false --passWithNoTests
+
+    - name: Build application
+      working-directory: ./frontend
+      run: npm run build
+
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./frontend/coverage/coverage-final.json
+        flags: frontend
+        name: frontend-coverage
+        fail_ci_if_error: false
