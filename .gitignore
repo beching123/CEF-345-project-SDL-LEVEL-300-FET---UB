@@ -95,3 +95,6 @@ coverage/
 *.key
 *.crt
 private_key.txt
+
+##ignoring everything inside frontend build
+/frontend/build
