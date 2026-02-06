@@ -207,11 +207,42 @@ const app = express();
 const PORT = process.env.PORT || 3000; // Use Render's assigned port
 
 // ----------------------
+// LOGGING MIDDLEWARE
+// ----------------------
+app.use((req, res, next) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${req.method} ${req.path} | Origin: ${req.headers.origin || 'none'}`);
+  next();
+});
+
+// ----------------------
 // 1. CORS Configuration
 // ----------------------
 app.use((req, res, next) => {
-  const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:3001';
-  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+  // Allow multiple origins for development and Docker
+  const origin = req.headers.origin;
+  const allowedOrigins = [
+    'http://localhost:3001',
+    'http://localhost:3002',
+    'http://localhost:80',
+    'http://localhost',
+    'http://frontend',  // Docker service name
+    'http://frontend:80',  // Docker service with port
+    process.env.FRONTEND_URL || 'http://localhost:3001'  // Environment variable
+  ];
+  
+  // In development, allow any localhost
+  if (process.env.NODE_ENV !== 'production') {
+    if (origin && (origin.includes('localhost') || origin.includes('frontend'))) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+  } else {
+    // Production: use explicit FRONTEND_URL
+    if (allowedOrigins.includes(origin)) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+  }
+  
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
