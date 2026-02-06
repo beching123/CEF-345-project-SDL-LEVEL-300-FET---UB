@@ -1,4 +1,4 @@
-const express = require("express");
+/*const express = require("express");
 const path = require("path");
 const dataStore = require('./dataStore');
 
@@ -196,4 +196,143 @@ app.listen(PORT, () => {
 
 app.listen(PORT, () => {
   console.log(`Netlink Server live at http://localhost:${PORT}`);
+});
+*/
+
+const express = require("express");
+const path = require("path");
+const dataStore = require('./dataStore');
+
+const app = express();
+const PORT = process.env.PORT || 3000; // Use Render's assigned port
+
+// ----------------------
+// 1. CORS Configuration
+// ----------------------
+app.use((req, res, next) => {
+  const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:3001';
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+  if (req.method === 'OPTIONS') return res.sendStatus(200);
+  next();
+});
+
+// ----------------------
+// 2. Middleware
+// ----------------------
+app.use(express.json());
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'build')));
+
+// ----------------------
+// 3. API Endpoints
+// ----------------------
+app.get("/api/reports/count", (req, res) => {
+  try {
+    const total = dataStore.getReportCount();
+    res.json({ total });
+  } catch (err) {
+    console.error("Count Error:", err);
+    res.status(500).json({ error: "Failed to get report count" });
+  }
+});
+
+app.get("/api/reports/count-by-network", (req, res) => {
+  try {
+    res.json(dataStore.getCountByNetwork());
+  } catch (err) {
+    console.error("Network Count Error:", err);
+    res.status(500).json({ error: "Failed to get network counts" });
+  }
+});
+
+app.get("/api/map/locations", (req, res) => {
+  try {
+    res.json(dataStore.getLocations());
+  } catch (err) {
+    console.error("Map Error:", err);
+    res.status(500).json({ error: "Failed to fetch locations" });
+  }
+});
+
+app.get("/api/reports", (req, res) => {
+  try {
+    res.json(dataStore.getAllReports());
+  } catch (err) {
+    console.error("Fetch Reports Error:", err);
+    res.status(500).json({ error: "Failed to fetch reports" });
+  }
+});
+
+// ----------------------
+// 4. Submit Report
+// ----------------------
+function validatePhone(networkType, phone) {
+  const clean = String(phone).trim();
+  const regexes = {
+    MTN: /^(67|68|650|651|652|653|654)\d{6,7}$/,
+    ORANGE: /^(69|655|656|657|658|659)\d{6,7}$/,
+    CAMTEL: /^(6242|6243|62)\d{6,7}$/
+  };
+  return regexes[networkType]?.test(clean);
+}
+
+app.post("/api/reports", (req, res) => {
+  const { networkType, phone } = req.body;
+
+  if (!validatePhone(networkType, phone)) {
+    return res.status(403).json({
+      status: "error",
+      message: `Validation Failed: The phone number does not match a valid ${networkType} format.`
+    });
+  }
+
+  try {
+    const newReport = dataStore.addReport(req.body);
+    res.status(200).json({
+      status: "success",
+      message: "Report submitted successfully",
+      reportId: newReport.id
+    });
+  } catch (err) {
+    console.error("Report Submission Error:", err);
+    res.status(500).json({ status: "error", message: "Failed to save report" });
+  }
+});
+
+// ----------------------
+// 5. Legacy Endpoint
+// ----------------------
+app.post("/report", (req, res) => {
+  const { networkType, phone } = req.body;
+  if (!validatePhone(networkType, phone)) {
+    return res.status(403).json({
+      status: "error",
+      message: `Validation Failed: The phone number does not match a valid ${networkType} format.`
+    });
+  }
+
+  try {
+    dataStore.addReport(req.body);
+    res.status(200).json({ status: "success", message: "Success! Your report has been sent." });
+  } catch (err) {
+    console.error("Report Error:", err);
+    res.status(500).json({ status: "error", message: "Failed to save report" });
+  }
+});
+
+// ----------------------
+// 6. Serve React App
+// ----------------------
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
+});
+
+// ----------------------
+// 7. Start Server
+// ----------------------
+app.listen(PORT, () => {
+  console.log(`✅ Netlink Server running at http://localhost:${PORT}`);
 });
