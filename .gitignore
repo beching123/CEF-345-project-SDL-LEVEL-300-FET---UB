@@ -66,7 +66,6 @@ __pycache__/
 .venv/
 
 # Package managers
-package-lock.json
 yarn.lock
 
 # Include app.js
@@ -87,3 +86,12 @@ coverage/
 
 # Testing
 *.test.snap
+
+# Data files - KEEP THESE (they contain user submissions)
+# !backend/data.json
+
+# Sensitive files
+*.pem
+*.key
+*.crt
+private_key.txt

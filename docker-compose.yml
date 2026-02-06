@@ -1,29 +1,7 @@
 version: '3.8'
 
 services:
-  # MySQL Database
-  mysql:
-    image: mysql:8.0
-    container_name: netlink_mysql
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-123Aaase@}
-      MYSQL_DATABASE: ${DB_NAME:-netlink_db}
-      MYSQL_USER: ${DB_USER:-root}
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-      - ./database/schema.sql:/docker-entrypoint-initdb.d/init.sql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - netlink_network
-
-  # Backend API Server
+  # Backend API Server (No database needed - uses JSON file storage)
   backend:
     build:
       context: .
@@ -33,29 +11,18 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       PORT: 3000
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_USER: ${DB_USER:-root}
-      DB_PASSWORD: ${DB_PASSWORD:-123Aaase@}
-      DB_NAME: ${DB_NAME:-netlink_db}
     ports:
       - "3000:3000"
-    depends_on:
-      mysql:
-        condition: service_healthy
+    volumes:
+      - ./backend/data.json:/app/backend/data.json
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/issues', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"]
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/reports/count', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 10s
     networks:
       - netlink_network
-    volumes:
-      - ./backend:/app/backend
-      - /app/backend/node_modules
-
-  # Frontend Web Server
+# Frontend Web Server
   frontend:
     build:
       context: .
@@ -66,20 +33,17 @@ services:
       REACT_APP_API_URL: ${REACT_APP_API_URL:-http://localhost:3000}
     ports:
       - "80:80"
+      - "3001:3001"
     depends_on:
       - backend
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/index.html"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 10s
     networks:
       - netlink_network
-
-volumes:
-  mysql_data:
-    driver: local
 
 networks:
   netlink_network:

@@ -2,11 +2,11 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000", // your backend server
+  baseURL: "http://localhost:3000",
   headers: {
     "Content-Type": "application/json"
   },
-  withCredentials: true // safe default (cookies, sessions)
+  withCredentials: false // Important: Don't send credentials with wildcard origins
 });
 
 export default api;
